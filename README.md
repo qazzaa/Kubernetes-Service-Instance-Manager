@@ -1,3 +1,5 @@
+Kubernetes Service Instance Manager is a control-plane component responsible for provisioning and managing service instances on top of Kubernetes. It translates a high-level service instance request into a set of Kubernetes resources, including namespaces, RBAC policies, service accounts, credentials, resource quotas and limits.
+
 ## Micronaut 4.7.6 Documentation
 
 - [User Guide](https://docs.micronaut.io/4.7.6/guide/index.html)
