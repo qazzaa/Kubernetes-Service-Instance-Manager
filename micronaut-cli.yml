@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: com.k8s.rbac
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [ app-name, control-panel, gradle, http-client-test, java, java-application, junit, logback, management, micronaut-aot, micronaut-build, micronaut-http-validation, netty-server, properties, readme, serialization-jackson, shade, static-resources ]

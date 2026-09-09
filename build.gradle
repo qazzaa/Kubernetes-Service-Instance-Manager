@@ -1,0 +1,72 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.micronaut.application") version "4.4.4"
+    id("io.micronaut.aot") version "4.4.4"
+}
+
+version = "0.1"
+group = "com.k8s.rbac"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    configurations.configureEach {
+        resolutionStrategy {
+            force 'org.bouncycastle:bcutil-jdk18on:1.80'
+            force 'org.bouncycastle:bcprov-jdk18on:1.80'
+            force 'net.minidev:json-smart:2.4.2'
+        }
+    }
+
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
+    annotationProcessor("io.micronaut:micronaut-inject-java")
+    compileOnly("io.micronaut:micronaut-inject");
+    implementation("io.micronaut:micronaut-management")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
+    compileOnly("io.micronaut:micronaut-http-client")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    testImplementation("io.micronaut:micronaut-http-client")
+    developmentOnly("io.micronaut.controlpanel:micronaut-control-panel-management")
+    developmentOnly("io.micronaut.controlpanel:micronaut-control-panel-ui")
+    implementation("io.kubernetes:client-java:23.0.0-legacy")
+}
+
+
+application {
+    mainClass = "com.k8s.rbac.Application"
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+
+graalvmNative.toolchainDetection = false
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("com.k8s.rbac.*")
+    }
+    aot {
+        // Please review carefully the optimizations enabled below
+        // Check https://micronaut-projects.github.io/micronaut-aot/latest/guide/ for more details
+        optimizeServiceLoading = false
+        convertYamlToJava = false
+        precomputeOperations = true
+        cacheEnvironment = true
+        optimizeClassLoading = true
+        deduceEnvironment = true
+        optimizeNetty = true
+        replaceLogbackXml = true
+    }
+}
+
+
+
